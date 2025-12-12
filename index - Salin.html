@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>LKD Sinergitas Olahraga Daerah</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts - Inter & Bebas Neue -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'display': ['Bebas Neue', 'sans-serif'],
+            'body': ['Inter', 'sans-serif'],
+          },
+          colors: {
+            'brand': {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+            },
+            'dark': {
+              800: '#1e1e2e',
+              900: '#11111b',
+              950: '#0a0a12',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -12px rgba(249, 115, 22, 0.25);
+    }
+    .gradient-border {
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
+      padding: 2px;
+    }
+    .gradient-border > div {
+      background: #1e1e2e;
+    }
+    .hero-gradient {
+      background: radial-gradient(ellipse at top, rgba(249, 115, 22, 0.15) 0%, transparent 60%);
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .glow {
+      box-shadow: 0 0 40px rgba(249, 115, 22, 0.3);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid #f97316;
+      transition: all 0.3s ease;
+    }
+    .btn-secondary:hover {
+      background: rgba(249, 115, 22, 0.1);
+      border-color: #fb923c;
+      transform: translateY(-2px);
+    }
+    .animate-pulse-slow {
+      animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+    /* Tab System */
+    .tab-btn {
+      transition: all 0.3s ease;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: white;
+      box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
+    }
+    .tab-btn:not(.active):hover {
+      background: rgba(249, 115, 22, 0.1);
+    }
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Progress Steps */
+    .step-line {
+      background: linear-gradient(to right, #f97316, #ea580c);
+    }
+    .step-circle.completed {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      border-color: #22c55e;
+    }
+    .step-circle.active {
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      border-color: #f97316;
+      box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+    }
+    .step-circle.pending {
+      background: #374151;
+      border-color: #4b5563;
+    }
+    /* Form Styles */
+    .form-input {
+      background: rgba(30, 30, 46, 0.8);
+      border: 2px solid #374151;
+      transition: all 0.3s ease;
+    }
+    .form-input:focus {
+      border-color: #f97316;
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+      outline: none;
+    }
+    .form-input::placeholder {
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-dark-950 font-body overflow-x-hidden">
+  <!-- Background Elements -->
+  <div class="fixed inset-0 hero-gradient pointer-events-none"></div>
+  <div class="fixed top-0 right-0 w-[600px] h-[600px] bg-brand-500/5 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="fixed bottom-0 left-0 w-[400px] h-[400px] bg-brand-600/5 rounded-full blur-3xl pointer-events-none"></div>
+  
+  <div class="relative max-w-7xl mx-auto px-6 py-12 md:py-16">
+    <!-- Header -->
+    <header class="mb-12 md:mb-16 text-center">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-brand-500/10 border border-brand-500/30 rounded-full mb-6">
+        <span class="w-2 h-2 bg-brand-500 rounded-full animate-pulse"></span>
+        <span class="text-xs font-semibold tracking-widest text-brand-400 uppercase">
+          Lembar Kerja Diskusi (LKD)
+        </span>
+      </div>
+      
+      <!-- Main Title -->
+      <h1 class="font-display text-5xl md:text-7xl lg:text-8xl tracking-wide text-white mb-4">
+        SINERGITAS<br class="md:hidden">
+        <span class="text-gradient">OLAHRAGA DAERAH</span>
+      </h1>
+      
+      <!-- Subtitle -->
+      <div class="flex items-center justify-center gap-3 mb-6">
+        <div class="h-[2px] w-12 bg-gradient-to-r from-transparent to-brand-500"></div>
+        <span class="text-lg md:text-xl font-bold text-brand-400 tracking-widest">KALIMANTAN TIMUR</span>
+        <div class="h-[2px] w-12 bg-gradient-to-l from-transparent to-brand-500"></div>
+      </div>
+      
+      <p class="text-base md:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+        Pilih <span class="text-white font-semibold">Kab/Kota</span> dan akses 
+        <span class="text-brand-400 font-semibold">LKD 1</span> (Awal Acara), 
+        <span class="text-brand-400 font-semibold">LKD 2</span> (Akhir Acara), atau isi 
+        <span class="text-white font-semibold">Roadmap</span> tindak lanjut.
+      </p>
+    </header>
+
+    <!-- Progress Steps -->
+    <section class="mb-12">
+      <div class="flex items-center justify-center gap-2 md:gap-4">
+        <!-- Step 1 -->
+        <div class="flex flex-col items-center">
+          <div class="step-circle active w-12 h-12 md:w-14 md:h-14 rounded-full border-2 flex items-center justify-center">
+            <span class="text-white font-bold text-lg">1</span>
+          </div>
+          <span class="mt-2 text-xs md:text-sm font-semibold text-brand-400">LKD 1</span>
+          <span class="text-[10px] text-gray-500">Awal Acara</span>
+        </div>
+        
+        <!-- Line -->
+        <div class="flex-1 max-w-[80px] md:max-w-[120px] h-1 bg-gray-700 rounded-full overflow-hidden">
+          <div class="step-line h-full w-1/2"></div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="flex flex-col items-center">
+          <div class="step-circle pending w-12 h-12 md:w-14 md:h-14 rounded-full border-2 flex items-center justify-center">
+            <span class="text-gray-400 font-bold text-lg">2</span>
+          </div>
+          <span class="mt-2 text-xs md:text-sm font-semibold text-gray-500">LKD 2</span>
+          <span class="text-[10px] text-gray-600">Akhir Acara</span>
+        </div>
+        
+        <!-- Line -->
+        <div class="flex-1 max-w-[80px] md:max-w-[120px] h-1 bg-gray-700 rounded-full"></div>
+        
+        <!-- Step 3 -->
+        <div class="flex flex-col items-center">
+          <div class="step-circle pending w-12 h-12 md:w-14 md:h-14 rounded-full border-2 flex items-center justify-center">
+            <span class="text-gray-400 font-bold text-lg">3</span>
+          </div>
+          <span class="mt-2 text-xs md:text-sm font-semibold text-gray-500">Roadmap</span>
+          <span class="text-[10px] text-gray-600">Tindak Lanjut</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab Navigation -->
+    <section class="mb-8">
+      <div class="flex flex-wrap justify-center gap-3 md:gap-4">
+        <button onclick="switchTab('lkd1')" id="tab-lkd1" class="tab-btn active px-6 py-3 md:px-8 md:py-4 rounded-xl font-bold text-sm md:text-base text-white border-2 border-brand-500/30">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+            <span>LKD 1 - AWAL ACARA</span>
+          </div>
+        </button>
+        <button onclick="switchTab('lkd2')" id="tab-lkd2" class="tab-btn px-6 py-3 md:px-8 md:py-4 rounded-xl font-bold text-sm md:text-base text-gray-400 border-2 border-gray-700">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>LKD 2 - AKHIR ACARA</span>
+          </div>
+        </button>
+        <button onclick="switchTab('roadmap')" id="tab-roadmap" class="tab-btn px-6 py-3 md:px-8 md:py-4 rounded-xl font-bold text-sm md:text-base text-gray-400 border-2 border-gray-700">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+            </svg>
+            <span>ROADMAP</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- Tab Content: LKD 1 -->
+    <div id="content-lkd1" class="tab-content active">
+      <section>
+        <div class="flex items-center gap-4 mb-8">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-brand-500/20 rounded-xl flex items-center justify-center">
+              <span class="text-brand-400 font-bold">1</span>
+            </div>
+            <h2 class="font-display text-2xl md:text-3xl text-white tracking-wide">
+              LKD 1 - AWAL ACARA
+            </h2>
+          </div>
+          <div class="flex-1 h-[2px] bg-gradient-to-r from-brand-500/50 to-transparent"></div>
+          <span class="hidden md:block px-3 py-1 bg-green-500/20 text-green-400 text-xs font-bold rounded-full">AKTIF</span>
+        </div>
+
+      <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <!-- 1. Kota Samarinda -->
+        <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-brand-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+          <!-- Decorative corner -->
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-brand-500/20 to-transparent rounded-bl-full"></div>
+          
+          <div class="relative">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="px-3 py-1 bg-brand-500/20 text-brand-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                Kota
+              </span>
+            </div>
+            <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-brand-400 transition-colors">
+              SAMARINDA
+            </h3>
+            <p class="mt-2 text-sm text-gray-500">
+              LKD Sinergitas Olahraga Daerah
+            </p>
+          </div>
+          <div class="mt-6 flex gap-3">
+            <a href="#" target="_blank" class="btn-secondary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-brand-400 rounded-xl">
+              DISPORA
+            </a>
+            <a href="#" target="_blank" class="btn-primary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl">
+              KONI
+            </a>
+          </div>
+        </div>
+
+        <!-- 2. Kota Balikpapan -->
+        <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-brand-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-brand-500/20 to-transparent rounded-bl-full"></div>
+          
+          <div class="relative">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="px-3 py-1 bg-brand-500/20 text-brand-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                Kota
+              </span>
+            </div>
+            <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-brand-400 transition-colors">
+              BALIKPAPAN
+            </h3>
+            <p class="mt-2 text-sm text-gray-500">
+              LKD Sinergitas Olahraga Daerah
+            </p>
+          </div>
+          <div class="mt-6 flex gap-3">
+            <a href="#" target="_blank" class="btn-secondary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-brand-400 rounded-xl">
+              DISPORA
+            </a>
+            <a href="#" target="_blank" class="btn-primary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl">
+              KONI
+            </a>
+          </div>
+        </div>
+
+        <!-- 3. Kota Bontang -->
+        <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-brand-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-brand-500/20 to-transparent rounded-bl-full"></div>
+          
+          <div class="relative">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="px-3 py-1 bg-brand-500/20 text-brand-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                Kota
+              </span>
+            </div>
+            <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-brand-400 transition-colors">
+              BONTANG
+            </h3>
+            <p class="mt-2 text-sm text-gray-500">
+              LKD Sinergitas Olahraga Daerah
+            </p>
+          </div>
+          <div class="mt-6 flex gap-3">
+            <a href="#" target="_blank" class="btn-secondary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-brand-400 rounded-xl">
+              DISPORA
+            </a>
+            <a href="#" target="_blank" class="btn-primary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl">
+              KONI
+            </a>
+          </div>
+        </div>
+
+        <!-- 4. Kab. Kutai Kartanegara -->
+        <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-brand-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-brand-500/20 to-transparent rounded-bl-full"></div>
+          
+          <div class="relative">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="px-3 py-1 bg-gray-700/50 text-gray-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                Kabupaten
+              </span>
+            </div>
+            <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-brand-400 transition-colors">
+              KUTAI KARTANEGARA
+            </h3>
+            <p class="mt-2 text-sm text-gray-500">
+              LKD Sinergitas Olahraga Daerah
+            </p>
+          </div>
+          <div class="mt-6 flex gap-3">
+            <a href="#" target="_blank" class="btn-secondary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-brand-400 rounded-xl">
+              DISPORA
+            </a>
+            <a href="#" target="_blank" class="btn-primary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl">
+              KONI
+            </a>
+          </div>
+        </div>
+
+        <!-- 5. Kab. Kutai Timur -->
+        <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-brand-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-brand-500/20 to-transparent rounded-bl-full"></div>
+          
+          <div class="relative">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="px-3 py-1 bg-gray-700/50 text-gray-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                Kabupaten
+              </span>
+            </div>
+            <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-brand-400 transition-colors">
+              KUTAI TIMUR
+            </h3>
+            <p class="mt-2 text-sm text-gray-500">
+              LKD Sinergitas Olahraga Daerah
+            </p>
+          </div>
+          <div class="mt-6 flex gap-3">
+            <a href="#" target="_blank" class="btn-secondary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-brand-400 rounded-xl">
+              DISPORA
+            </a>
+            <a href="#" target="_blank" class="btn-primary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl">
+              KONI
+            </a>
+          </div>
+        </div>
+
+        <!-- 6. Kab. Kutai Barat -->
+        <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-brand-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-brand-500/20 to-transparent rounded-bl-full"></div>
+          
+          <div class="relative">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="px-3 py-1 bg-gray-700/50 text-gray-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                Kabupaten
+              </span>
+            </div>
+            <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-brand-400 transition-colors">
+              KUTAI BARAT
+            </h3>
+            <p class="mt-2 text-sm text-gray-500">
+              LKD Sinergitas Olahraga Daerah
+            </p>
+          </div>
+          <div class="mt-6 flex gap-3">
+            <a href="#" target="_blank" class="btn-secondary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-brand-400 rounded-xl">
+              DISPORA
+            </a>
+            <a href="#" target="_blank" class="btn-primary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl">
+              KONI
+            </a>
+          </div>
+        </div>
+
+        <!-- 7. Kab. Berau -->
+        <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-brand-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-brand-500/20 to-transparent rounded-bl-full"></div>
+          
+          <div class="relative">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="px-3 py-1 bg-gray-700/50 text-gray-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                Kabupaten
+              </span>
+            </div>
+            <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-brand-400 transition-colors">
+              BERAU
+            </h3>
+            <p class="mt-2 text-sm text-gray-500">
+              LKD Sinergitas Olahraga Daerah
+            </p>
+          </div>
+          <div class="mt-6 flex gap-3">
+            <a href="#" target="_blank" class="btn-secondary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-brand-400 rounded-xl">
+              DISPORA
+            </a>
+            <a href="#" target="_blank" class="btn-primary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl">
+              KONI
+            </a>
+          </div>
+        </div>
+
+        <!-- 8. Kab. Paser -->
+        <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-brand-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-brand-500/20 to-transparent rounded-bl-full"></div>
+          
+          <div class="relative">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="px-3 py-1 bg-gray-700/50 text-gray-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                Kabupaten
+              </span>
+            </div>
+            <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-brand-400 transition-colors">
+              PASER
+            </h3>
+            <p class="mt-2 text-sm text-gray-500">
+              LKD Sinergitas Olahraga Daerah
+            </p>
+          </div>
+          <div class="mt-6 flex gap-3">
+            <a href="#" target="_blank" class="btn-secondary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-brand-400 rounded-xl">
+              DISPORA
+            </a>
+            <a href="#" target="_blank" class="btn-primary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl">
+              KONI
+            </a>
+          </div>
+        </div>
+
+        <!-- 9. Kab. Penajam Paser Utara -->
+        <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-brand-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-brand-500/20 to-transparent rounded-bl-full"></div>
+          
+          <div class="relative">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="px-3 py-1 bg-gray-700/50 text-gray-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                Kabupaten
+              </span>
+            </div>
+            <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-brand-400 transition-colors">
+              PENAJAM PASER UTARA
+            </h3>
+            <p class="mt-2 text-sm text-gray-500">
+              LKD Sinergitas Olahraga Daerah
+            </p>
+          </div>
+          <div class="mt-6 flex gap-3">
+            <a href="#" target="_blank" class="btn-secondary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-brand-400 rounded-xl">
+              DISPORA
+            </a>
+            <a href="#" target="_blank" class="btn-primary w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl">
+              KONI
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    </div>
+
+    <!-- Tab Content: LKD 2 -->
+    <div id="content-lkd2" class="tab-content">
+      <section>
+        <div class="flex items-center gap-4 mb-8">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center">
+              <span class="text-blue-400 font-bold">2</span>
+            </div>
+            <h2 class="font-display text-2xl md:text-3xl text-white tracking-wide">
+              LKD 2 - AKHIR ACARA
+            </h2>
+          </div>
+          <div class="flex-1 h-[2px] bg-gradient-to-r from-blue-500/50 to-transparent"></div>
+          <span class="hidden md:block px-3 py-1 bg-yellow-500/20 text-yellow-400 text-xs font-bold rounded-full">SEGERA</span>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <!-- LKD2 Cards - Same structure but different links -->
+          <!-- 1. Kota Samarinda -->
+          <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-blue-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-full"></div>
+            <div class="relative">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-[10px] font-bold uppercase tracking-widest rounded-full">Kota</span>
+              </div>
+              <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-blue-400 transition-colors">SAMARINDA</h3>
+              <p class="mt-2 text-sm text-gray-500">LKD 2 - Evaluasi & Refleksi</p>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-blue-400 rounded-xl border-2 border-blue-500 hover:bg-blue-500/10 transition">DISPORA</a>
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 transition">KONI</a>
+            </div>
+          </div>
+
+          <!-- 2. Kota Balikpapan -->
+          <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-blue-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-full"></div>
+            <div class="relative">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-[10px] font-bold uppercase tracking-widest rounded-full">Kota</span>
+              </div>
+              <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-blue-400 transition-colors">BALIKPAPAN</h3>
+              <p class="mt-2 text-sm text-gray-500">LKD 2 - Evaluasi & Refleksi</p>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-blue-400 rounded-xl border-2 border-blue-500 hover:bg-blue-500/10 transition">DISPORA</a>
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 transition">KONI</a>
+            </div>
+          </div>
+
+          <!-- 3. Kota Bontang -->
+          <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-blue-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-full"></div>
+            <div class="relative">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-[10px] font-bold uppercase tracking-widest rounded-full">Kota</span>
+              </div>
+              <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-blue-400 transition-colors">BONTANG</h3>
+              <p class="mt-2 text-sm text-gray-500">LKD 2 - Evaluasi & Refleksi</p>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-blue-400 rounded-xl border-2 border-blue-500 hover:bg-blue-500/10 transition">DISPORA</a>
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 transition">KONI</a>
+            </div>
+          </div>
+
+          <!-- 4. Kab. Kutai Kartanegara -->
+          <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-blue-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-full"></div>
+            <div class="relative">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-3 py-1 bg-gray-700/50 text-gray-400 text-[10px] font-bold uppercase tracking-widest rounded-full">Kabupaten</span>
+              </div>
+              <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-blue-400 transition-colors">KUTAI KARTANEGARA</h3>
+              <p class="mt-2 text-sm text-gray-500">LKD 2 - Evaluasi & Refleksi</p>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-blue-400 rounded-xl border-2 border-blue-500 hover:bg-blue-500/10 transition">DISPORA</a>
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 transition">KONI</a>
+            </div>
+          </div>
+
+          <!-- 5. Kab. Kutai Timur -->
+          <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-blue-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-full"></div>
+            <div class="relative">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-3 py-1 bg-gray-700/50 text-gray-400 text-[10px] font-bold uppercase tracking-widest rounded-full">Kabupaten</span>
+              </div>
+              <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-blue-400 transition-colors">KUTAI TIMUR</h3>
+              <p class="mt-2 text-sm text-gray-500">LKD 2 - Evaluasi & Refleksi</p>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-blue-400 rounded-xl border-2 border-blue-500 hover:bg-blue-500/10 transition">DISPORA</a>
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 transition">KONI</a>
+            </div>
+          </div>
+
+          <!-- 6. Kab. Kutai Barat -->
+          <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-blue-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-full"></div>
+            <div class="relative">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-3 py-1 bg-gray-700/50 text-gray-400 text-[10px] font-bold uppercase tracking-widest rounded-full">Kabupaten</span>
+              </div>
+              <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-blue-400 transition-colors">KUTAI BARAT</h3>
+              <p class="mt-2 text-sm text-gray-500">LKD 2 - Evaluasi & Refleksi</p>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-blue-400 rounded-xl border-2 border-blue-500 hover:bg-blue-500/10 transition">DISPORA</a>
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 transition">KONI</a>
+            </div>
+          </div>
+
+          <!-- 7. Kab. Berau -->
+          <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-blue-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-full"></div>
+            <div class="relative">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-3 py-1 bg-gray-700/50 text-gray-400 text-[10px] font-bold uppercase tracking-widest rounded-full">Kabupaten</span>
+              </div>
+              <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-blue-400 transition-colors">BERAU</h3>
+              <p class="mt-2 text-sm text-gray-500">LKD 2 - Evaluasi & Refleksi</p>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-blue-400 rounded-xl border-2 border-blue-500 hover:bg-blue-500/10 transition">DISPORA</a>
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 transition">KONI</a>
+            </div>
+          </div>
+
+          <!-- 8. Kab. Paser -->
+          <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-blue-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-full"></div>
+            <div class="relative">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-3 py-1 bg-gray-700/50 text-gray-400 text-[10px] font-bold uppercase tracking-widest rounded-full">Kabupaten</span>
+              </div>
+              <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-blue-400 transition-colors">PASER</h3>
+              <p class="mt-2 text-sm text-gray-500">LKD 2 - Evaluasi & Refleksi</p>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-blue-400 rounded-xl border-2 border-blue-500 hover:bg-blue-500/10 transition">DISPORA</a>
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 transition">KONI</a>
+            </div>
+          </div>
+
+          <!-- 9. Kab. Penajam Paser Utara -->
+          <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-blue-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-full"></div>
+            <div class="relative">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-3 py-1 bg-gray-700/50 text-gray-400 text-[10px] font-bold uppercase tracking-widest rounded-full">Kabupaten</span>
+              </div>
+              <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-blue-400 transition-colors">PENAJAM PASER UTARA</h3>
+              <p class="mt-2 text-sm text-gray-500">LKD 2 - Evaluasi & Refleksi</p>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-blue-400 rounded-xl border-2 border-blue-500 hover:bg-blue-500/10 transition">DISPORA</a>
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 transition">KONI</a>
+            </div>
+          </div>
+
+          <!-- 10. Kab. Mahakam Ulu -->
+          <div class="card-hover group bg-dark-800/50 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-blue-500/50 p-6 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-full"></div>
+            <div class="relative">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-3 py-1 bg-gray-700/50 text-gray-400 text-[10px] font-bold uppercase tracking-widest rounded-full">Kabupaten</span>
+              </div>
+              <h3 class="font-display text-3xl text-white tracking-wide group-hover:text-blue-400 transition-colors">MAHAKAM ULU</h3>
+              <p class="mt-2 text-sm text-gray-500">LKD 2 - Evaluasi & Refleksi</p>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-blue-400 rounded-xl border-2 border-blue-500 hover:bg-blue-500/10 transition">DISPORA</a>
+              <a href="#" target="_blank" class="w-1/2 inline-flex items-center justify-center px-4 py-3 text-sm font-bold text-white rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 transition">KONI</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Tab Content: Roadmap -->
+    <div id="content-roadmap" class="tab-content">
+      <section>
+        <div class="flex items-center gap-4 mb-8">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center">
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+              </svg>
+            </div>
+            <h2 class="font-display text-2xl md:text-3xl text-white tracking-wide">
+              ROADMAP TINDAK LANJUT
+            </h2>
+          </div>
+          <div class="flex-1 h-[2px] bg-gradient-to-r from-emerald-500/50 to-transparent"></div>
+        </div>
+
+        <!-- Roadmap Form -->
+        <div class="gradient-border rounded-2xl mb-8" style="background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);">
+          <div class="bg-dark-800 rounded-2xl p-6 md:p-8">
+            <form id="roadmapForm" class="space-y-6">
+              <!-- Row 1: Identity -->
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-bold text-emerald-400 mb-2 tracking-wide">KAB/KOTA</label>
+                  <select class="form-input w-full px-4 py-3 rounded-xl text-white" required>
+                    <option value="">-- Pilih Kab/Kota --</option>
+                    <option value="samarinda">Kota Samarinda</option>
+                    <option value="balikpapan">Kota Balikpapan</option>
+                    <option value="bontang">Kota Bontang</option>
+                    <option value="kukar">Kab. Kutai Kartanegara</option>
+                    <option value="kutim">Kab. Kutai Timur</option>
+                    <option value="kubar">Kab. Kutai Barat</option>
+                    <option value="berau">Kab. Berau</option>
+                    <option value="paser">Kab. Paser</option>
+                    <option value="ppu">Kab. Penajam Paser Utara</option>
+                    <option value="mahulu">Kab. Mahakam Ulu</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-emerald-400 mb-2 tracking-wide">INSTANSI</label>
+                  <select class="form-input w-full px-4 py-3 rounded-xl text-white" required>
+                    <option value="">-- Pilih Instansi --</option>
+                    <option value="dispora">DISPORA</option>
+                    <option value="koni">KONI</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Row 2: Contact Info -->
+              <div class="grid md:grid-cols-3 gap-6">
+                <div>
+                  <label class="block text-sm font-bold text-emerald-400 mb-2 tracking-wide">NAMA LENGKAP</label>
+                  <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white" placeholder="Masukkan nama lengkap" required>
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-emerald-400 mb-2 tracking-wide">JABATAN</label>
+                  <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white" placeholder="Masukkan jabatan" required>
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-emerald-400 mb-2 tracking-wide">NO. WHATSAPP</label>
+                  <input type="tel" class="form-input w-full px-4 py-3 rounded-xl text-white" placeholder="08xxxxxxxxxx" required>
+                </div>
+              </div>
+
+              <!-- Divider -->
+              <div class="flex items-center gap-4 py-4">
+                <div class="flex-1 h-[1px] bg-gray-700"></div>
+                <span class="text-emerald-400 font-bold text-sm tracking-widest">RENCANA AKSI</span>
+                <div class="flex-1 h-[1px] bg-gray-700"></div>
+              </div>
+
+              <!-- Roadmap Items Container -->
+              <div id="roadmapItems" class="space-y-6">
+                <!-- Roadmap Item 1 -->
+                <div class="roadmap-item bg-dark-900/50 rounded-xl p-5 border border-gray-700">
+                  <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-8 bg-emerald-500/20 text-emerald-400 text-sm font-bold rounded-full flex items-center justify-center">1</span>
+                    <span class="text-white font-bold">Rencana Aksi #1</span>
+                  </div>
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-gray-400 mb-2">PROGRAM/KEGIATAN</label>
+                      <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" placeholder="Nama program atau kegiatan">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-gray-400 mb-2">TARGET CAPAIAN</label>
+                      <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" placeholder="Target yang ingin dicapai">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-gray-400 mb-2">WAKTU PELAKSANAAN</label>
+                      <select class="form-input w-full px-4 py-3 rounded-xl text-white text-sm">
+                        <option value="">-- Pilih Periode --</option>
+                        <option value="q1-2025">Q1 2025 (Jan-Mar)</option>
+                        <option value="q2-2025">Q2 2025 (Apr-Jun)</option>
+                        <option value="q3-2025">Q3 2025 (Jul-Sep)</option>
+                        <option value="q4-2025">Q4 2025 (Okt-Des)</option>
+                        <option value="2026">Tahun 2026</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-gray-400 mb-2">PENANGGUNG JAWAB</label>
+                      <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" placeholder="Nama penanggung jawab">
+                    </div>
+                  </div>
+                  <div class="mt-4">
+                    <label class="block text-xs font-semibold text-gray-400 mb-2">INDIKATOR KEBERHASILAN</label>
+                    <textarea class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" rows="2" placeholder="Jelaskan indikator keberhasilan program"></textarea>
+                  </div>
+                </div>
+
+                <!-- Roadmap Item 2 -->
+                <div class="roadmap-item bg-dark-900/50 rounded-xl p-5 border border-gray-700">
+                  <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-8 bg-emerald-500/20 text-emerald-400 text-sm font-bold rounded-full flex items-center justify-center">2</span>
+                    <span class="text-white font-bold">Rencana Aksi #2</span>
+                  </div>
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-gray-400 mb-2">PROGRAM/KEGIATAN</label>
+                      <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" placeholder="Nama program atau kegiatan">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-gray-400 mb-2">TARGET CAPAIAN</label>
+                      <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" placeholder="Target yang ingin dicapai">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-gray-400 mb-2">WAKTU PELAKSANAAN</label>
+                      <select class="form-input w-full px-4 py-3 rounded-xl text-white text-sm">
+                        <option value="">-- Pilih Periode --</option>
+                        <option value="q1-2025">Q1 2025 (Jan-Mar)</option>
+                        <option value="q2-2025">Q2 2025 (Apr-Jun)</option>
+                        <option value="q3-2025">Q3 2025 (Jul-Sep)</option>
+                        <option value="q4-2025">Q4 2025 (Okt-Des)</option>
+                        <option value="2026">Tahun 2026</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-gray-400 mb-2">PENANGGUNG JAWAB</label>
+                      <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" placeholder="Nama penanggung jawab">
+                    </div>
+                  </div>
+                  <div class="mt-4">
+                    <label class="block text-xs font-semibold text-gray-400 mb-2">INDIKATOR KEBERHASILAN</label>
+                    <textarea class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" rows="2" placeholder="Jelaskan indikator keberhasilan program"></textarea>
+                  </div>
+                </div>
+
+                <!-- Roadmap Item 3 -->
+                <div class="roadmap-item bg-dark-900/50 rounded-xl p-5 border border-gray-700">
+                  <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-8 bg-emerald-500/20 text-emerald-400 text-sm font-bold rounded-full flex items-center justify-center">3</span>
+                    <span class="text-white font-bold">Rencana Aksi #3</span>
+                  </div>
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-gray-400 mb-2">PROGRAM/KEGIATAN</label>
+                      <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" placeholder="Nama program atau kegiatan">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-gray-400 mb-2">TARGET CAPAIAN</label>
+                      <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" placeholder="Target yang ingin dicapai">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-gray-400 mb-2">WAKTU PELAKSANAAN</label>
+                      <select class="form-input w-full px-4 py-3 rounded-xl text-white text-sm">
+                        <option value="">-- Pilih Periode --</option>
+                        <option value="q1-2025">Q1 2025 (Jan-Mar)</option>
+                        <option value="q2-2025">Q2 2025 (Apr-Jun)</option>
+                        <option value="q3-2025">Q3 2025 (Jul-Sep)</option>
+                        <option value="q4-2025">Q4 2025 (Okt-Des)</option>
+                        <option value="2026">Tahun 2026</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-gray-400 mb-2">PENANGGUNG JAWAB</label>
+                      <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" placeholder="Nama penanggung jawab">
+                    </div>
+                  </div>
+                  <div class="mt-4">
+                    <label class="block text-xs font-semibold text-gray-400 mb-2">INDIKATOR KEBERHASILAN</label>
+                    <textarea class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" rows="2" placeholder="Jelaskan indikator keberhasilan program"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Add More Button -->
+              <button type="button" onclick="addRoadmapItem()" class="w-full py-4 border-2 border-dashed border-gray-600 hover:border-emerald-500 rounded-xl text-gray-400 hover:text-emerald-400 font-semibold transition flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Tambah Rencana Aksi Lainnya
+              </button>
+
+              <!-- Komitmen Section -->
+              <div class="bg-dark-900/50 rounded-xl p-5 border border-emerald-500/30">
+                <label class="block text-sm font-bold text-emerald-400 mb-3 tracking-wide">KOMITMEN & CATATAN TAMBAHAN</label>
+                <textarea class="form-input w-full px-4 py-3 rounded-xl text-white" rows="4" placeholder="Tuliskan komitmen dan catatan tambahan terkait rencana sinergitas olahraga daerah..."></textarea>
+              </div>
+
+              <!-- Submit Buttons -->
+              <div class="flex flex-col md:flex-row gap-4 pt-4">
+                <button type="button" onclick="saveRoadmap()" class="flex-1 py-4 px-6 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white font-bold rounded-xl transition transform hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/30 flex items-center justify-center gap-2">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
+                  </svg>
+                  SIMPAN ROADMAP
+                </button>
+                <button type="button" onclick="printRoadmap()" class="flex-1 py-4 px-6 border-2 border-emerald-500 text-emerald-400 hover:bg-emerald-500/10 font-bold rounded-xl transition flex items-center justify-center gap-2">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                  </svg>
+                  CETAK / DOWNLOAD
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-16 pt-8 border-t border-gray-800">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-brand-500 to-brand-600 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="font-display text-lg text-white tracking-wide">FGD SINERGITAS</p>
+            <p class="text-xs text-gray-500">Kalimantan Timur 2025</p>
+          </div>
+        </div>
+        <p class="text-sm text-gray-500">
+          Disiapkan oleh <span class="text-brand-400 font-semibold">Panitia FGD Sinergitas Olahraga Daerah</span>
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JavaScript for Tab Switching and Roadmap -->
+  <script>
+    let roadmapItemCount = 3;
+
+    function switchTab(tabName) {
+      // Remove active class from all tabs and contents
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.classList.add('text-gray-400');
+        btn.classList.remove('text-white');
+      });
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+
+      // Add active class to selected tab and content
+      document.getElementById('tab-' + tabName).classList.add('active');
+      document.getElementById('tab-' + tabName).classList.remove('text-gray-400');
+      document.getElementById('tab-' + tabName).classList.add('text-white');
+      document.getElementById('content-' + tabName).classList.add('active');
+    }
+
+    function addRoadmapItem() {
+      roadmapItemCount++;
+      const container = document.getElementById('roadmapItems');
+      const newItem = document.createElement('div');
+      newItem.className = 'roadmap-item bg-dark-900/50 rounded-xl p-5 border border-gray-700';
+      newItem.innerHTML = `
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 bg-emerald-500/20 text-emerald-400 text-sm font-bold rounded-full flex items-center justify-center">${roadmapItemCount}</span>
+            <span class="text-white font-bold">Rencana Aksi #${roadmapItemCount}</span>
+          </div>
+          <button type="button" onclick="this.closest('.roadmap-item').remove()" class="text-red-400 hover:text-red-300 p-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+          </button>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-400 mb-2">PROGRAM/KEGIATAN</label>
+            <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" placeholder="Nama program atau kegiatan">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-400 mb-2">TARGET CAPAIAN</label>
+            <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" placeholder="Target yang ingin dicapai">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-400 mb-2">WAKTU PELAKSANAAN</label>
+            <select class="form-input w-full px-4 py-3 rounded-xl text-white text-sm">
+              <option value="">-- Pilih Periode --</option>
+              <option value="q1-2025">Q1 2025 (Jan-Mar)</option>
+              <option value="q2-2025">Q2 2025 (Apr-Jun)</option>
+              <option value="q3-2025">Q3 2025 (Jul-Sep)</option>
+              <option value="q4-2025">Q4 2025 (Okt-Des)</option>
+              <option value="2026">Tahun 2026</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-400 mb-2">PENANGGUNG JAWAB</label>
+            <input type="text" class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" placeholder="Nama penanggung jawab">
+          </div>
+        </div>
+        <div class="mt-4">
+          <label class="block text-xs font-semibold text-gray-400 mb-2">INDIKATOR KEBERHASILAN</label>
+          <textarea class="form-input w-full px-4 py-3 rounded-xl text-white text-sm" rows="2" placeholder="Jelaskan indikator keberhasilan program"></textarea>
+        </div>
+      `;
+      container.appendChild(newItem);
+    }
+
+    function saveRoadmap() {
+      // Collect form data
+      const formData = new FormData(document.getElementById('roadmapForm'));
+      
+      // Show success notification
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-emerald-500 text-white px-6 py-4 rounded-xl shadow-lg z-50 flex items-center gap-3';
+      notification.innerHTML = `
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        <span class="font-semibold">Roadmap berhasil disimpan!</span>
+      `;
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
+    }
+
+    function printRoadmap() {
+      window.print();
+    }
+  </script>
+</body>
+</html>
